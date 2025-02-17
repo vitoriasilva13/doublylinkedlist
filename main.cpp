@@ -15,7 +15,7 @@ struct Node {
 };
 
 //Declarando funções
-Node* carrega();
+Node* carregaNodes();
 Node* criaNode(Pessoa pessoa);
 void insereInicio(Node** head, Pessoa pessoa);
 void insereFinal(Node** head, Pessoa pessoa);
@@ -26,7 +26,7 @@ void estilizaFormatoParaImpressao(Pessoa pessoa);
 void trim(char *str);
 
 int main() {
-    Node* head = carrega();
+    Node* head = carregaNodes();
     int acao;
     do {
         printf("\n****************************************\n"
@@ -54,7 +54,7 @@ int main() {
     return 0;
 }
 
-Node* carrega() {
+Node* carregaNodes() {
     Node* head = NULL;
 
     FILE *file = fopen("entrada", "r");
@@ -80,6 +80,33 @@ Node* criaNode(Pessoa pessoa) {
     node->next = NULL;
     node->prev = NULL;
     return node;
+}
+
+void insereOrdenandoAlfabeticamente(Node** head, Pessoa pessoa) {
+    Node* novo = criaNode(pessoa);
+    if (*head == NULL) {
+        *head = novo;
+        return;
+    }
+
+    Node* atual = *head;
+    if (strcmp(pessoa.nome, atual->pessoa.nome) < 0) {
+        novo->next = atual;
+        atual->prev = novo;
+        *head = novo;
+        return;
+    }
+
+    while (atual->next != NULL && strcmp(pessoa.nome, atual->next->pessoa.nome) > 0) {
+        atual = atual->next;
+    }
+
+    novo->next = atual->next;
+    novo->prev = atual;
+    if (atual->next != NULL) {
+        atual->next->prev = novo;
+    }
+    atual->next = novo;
 }
 
 void imprime(Node* head) {
@@ -127,33 +154,6 @@ void insereFinal(Node** head, Pessoa pessoa) {
 
     temp->next = novo;
     novo->prev = temp;
-}
-
-void insereOrdenandoAlfabeticamente(Node** head, Pessoa pessoa) {
-    Node* novo = criaNode(pessoa);
-    if (*head == NULL) {
-        *head = novo;
-        return;
-    }
-
-    Node* atual = *head;
-    if (strcmp(pessoa.nome, atual->pessoa.nome) < 0) {
-        novo->next = atual;
-        atual->prev = novo;
-        *head = novo;
-        return;
-    }
-
-    while (atual->next != NULL && strcmp(pessoa.nome, atual->next->pessoa.nome) > 0) {
-        atual = atual->next;
-    }
-
-    novo->next = atual->next;
-    novo->prev = atual;
-    if (atual->next != NULL) {
-        atual->next->prev = novo;
-    }
-    atual->next = novo;
 }
 
 void trim(char *str) {
