@@ -14,11 +14,8 @@ struct Node {
     Node* prev;
 };
 
-//Declarando funções
 Node* carregaNodes();
 Node* criaNode(Pessoa pessoa);
-void insereInicio(Node** head, Pessoa pessoa);
-void insereFinal(Node** head, Pessoa pessoa);
 void insereOrdenandoAlfabeticamente(Node** head, Pessoa pessoa);
 void imprime(Node* head);
 void imprimeInverso(Node* head);
@@ -131,39 +128,14 @@ void imprimeInverso(Node* head) {
     }
 }
 
-void insereInicio(Node** head, Pessoa pessoa) {
-    Node* novo = criaNode(pessoa);
-    if (*head != NULL) {
-        novo->next = *head;
-        (*head)->prev = novo;
-    }
-    *head = novo;
-}
-
-void insereFinal(Node** head, Pessoa pessoa) {
-    Node* novo = criaNode(pessoa);
-    if (*head == NULL) {
-        *head = novo;
-        return;
-    }
-
-    Node* temp = *head;
-    while (temp->next != NULL) {
-        temp = temp->next;
-    }
-
-    temp->next = novo;
-    novo->prev = temp;
-}
-
-void trim(char *str) {
-    for (int i = strlen(str) - 1; i >= 0 && str[i] == ' '; i--)
-        str[i] = '\0';
-}
-
 void estilizaFormatoParaImpressao(Pessoa pessoa) {
     printf("-------------------------------------------------------------\n");
     printf("Nome: %s\n", pessoa.nome);
     printf("Sexo: %c\n", pessoa.sexo);
     printf("Salario: %.2f\n", pessoa.salario);
+}
+
+void trim(char *str) {
+    for (int i = strlen(str) - 1; i >= 0 && str[i] == ' '; i--)
+        str[i] = '\0';
 }
